@@ -30,5 +30,11 @@ pythia6_common_address.c
 main.c
 )
 
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  # using Clang
+  set(CMAKE_SHARED_LINKER_FLAGS
+    "${CMAKE_SHARED_LINKER_FLAGS} -undefined dynamic_lookup -Wl,-no_compact_unwind")
+endif()
+
 Add_Library(pythia6 SHARED ${Pythia_FSRCS} ${Pythia_CSRCS})
 Install(TARGETS pythia6 DESTINATION LIBRARY DESTINATION lib)
