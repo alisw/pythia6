@@ -37,4 +37,7 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 Add_Library(pythia6 SHARED ${Pythia_FSRCS} ${Pythia_CSRCS})
+If (CMAKE_Fortran_COMPILER MATCHES "gfortran")
+Target_Link_Libraries(pythia6 gfortran)
+EndIf (CMAKE_Fortran_COMPILER MATCHES "gfortran")
 Install(TARGETS pythia6 DESTINATION LIBRARY DESTINATION lib)
