@@ -31,4 +31,5 @@ main.c
 )
 
 Add_Library(pythia6 SHARED ${Pythia_FSRCS} ${Pythia_CSRCS})
+Target_Link_Libraries(pythia6 gfortran)
 Install(TARGETS pythia6 DESTINATION LIBRARY DESTINATION lib)
