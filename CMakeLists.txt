@@ -30,8 +30,8 @@ pythia6_common_address.c
 main.c
 )
 
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  # using Clang
+# using Clang on Mac OSX
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS
     "${CMAKE_SHARED_LINKER_FLAGS} -undefined dynamic_lookup -Wl,-no_compact_unwind")
 endif()
