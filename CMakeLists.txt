@@ -5,7 +5,7 @@ Enable_Language(Fortran)
 
 
 set(Pythia_FSRCS
-pythia-6.4.28.f
+pythia-6.4.25.f
 tpythia6_called_from_cc.F
 )
 
