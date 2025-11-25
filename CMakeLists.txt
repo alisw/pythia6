@@ -1,43 +1,36 @@
-Cmake_Minimum_Required(VERSION 2.6.0 FATAL_ERROR)
-
-Project(Pythia6)
-Enable_Language(Fortran)
-
-
-set(Pythia_FSRCS
-pythia-6.4.28.f
-tpythia6_called_from_cc.F
-)
-
+cmake_minimum_required(VERSION 3.27.1 FATAL_ERROR)
+project(Pythia6)
+enable_language(Fortran)
+set(PYTHIA_FSRCS pythia-6.4.28.f tpythia6_called_from_cc.F)
 
 # The order here is important because gfortran is contained in pgfortran
-If (CMAKE_Fortran_COMPILER MATCHES "gfortran")
-#  set(UnderScoreString "-fno-second_underscore")
-EndIf (CMAKE_Fortran_COMPILER MATCHES "gfortran")
-If (CMAKE_Fortran_COMPILER MATCHES "pgfortran")
-  set(UnderScoreString "-Mnosecond_underscore")
-EndIf (CMAKE_Fortran_COMPILER MATCHES "pgfortran")
+if(CMAKE_Fortran_COMPILER MATCHES "gfortran")
+#  set(UNDERSCORESTRING "-fno-second_underscore")
+endif()
+if(CMAKE_Fortran_COMPILER MATCHES "pgfortran")
+  set(UNDERSCORESTRING "-Mnosecond_underscore")
+endif()
 
 
-#Set_Source_Files_Properties(${Pythia_FSRCS} PROPERTIES COMPILE_FLAGS
-#                           ${UnderScoreString})
+#Set_Source_Files_Properties(${PYTHIA_FSRCS} PROPERTIES COMPILE_FLAGS
+#                           ${UNDERSCORESTRING})
 
 # create c source
-Execute_Process(COMMAND echo void MAIN() {} OUTPUT_FILE main.c)
+execute_process(COMMAND echo void MAIN() {} OUTPUT_FILE main.c)
 
-set(Pythia_CSRCS
+set(PYTHIA_CSRCS
 pythia6_common_address.c
 main.c
 )
 
 # using Clang on Mac OSX
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND APPLE)
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS
     "${CMAKE_SHARED_LINKER_FLAGS} -undefined dynamic_lookup -Wl,-no_compact_unwind")
 endif()
 
-Add_Library(pythia6 SHARED ${Pythia_FSRCS} ${Pythia_CSRCS})
-If (CMAKE_Fortran_COMPILER MATCHES "gfortran")
-Target_Link_Libraries(pythia6 gfortran)
-EndIf (CMAKE_Fortran_COMPILER MATCHES "gfortran")
-Install(TARGETS pythia6 DESTINATION LIBRARY DESTINATION lib)
+add_library(pythia6 SHARED ${PYTHIA_FSRCS} ${PYTHIA_CSRCS})
+if(CMAKE_Fortran_COMPILER MATCHES "gfortran")
+target_link_libraries(pythia6 gfortran)
+endif()
+install(TARGETS pythia6 DESTINATION LIBRARY lib)
